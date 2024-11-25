@@ -1,0 +1,30 @@
+[
+  {
+    "id": "MS937nGG",
+    "name": "capital_luna",
+    "population": 10000,
+    "loyalty": 0,
+    "has_kingdom": true
+  },
+  {
+    "id": "KIlb0rzW",
+    "name": "capital_queen",
+    "population": 9500,
+    "loyalty": 0,
+    "has_kingdom": true
+  },
+  {
+    "id": "lbjKdqBA",
+    "name": "l_occidental",
+    "population": 3244,
+    "loyalty": 0,
+    "has_kingdom": true
+  },
+  {
+    "id": "qBgs66UQ",
+    "name": "l_oriental",
+    "population": 2244,
+    "loyalty": 0,
+    "has_kingdom": false
+  }
+]
