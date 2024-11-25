@@ -1,6 +1,9 @@
 use anyhow::{anyhow, Ok};
-use cli::cli::SubCommand;
+use cli::cli::{SubCommand};
+use cli::kingdom_cli::{KingdomsAction, KingdomsCli, CreateKingdom};
+use cli::town_cli::{TownsAction, TownsCli, CreateTown};
 use cli::cli::Cli;
+use structopt::StructOpt;
 
 mod cli;
 mod objects;
@@ -29,18 +32,18 @@ fn check_kingdoms_commands(action: KingdomsCli, directory: String) -> anyhow::Re
     let KingdomsCli { action } = action;
 
     match action {
-        cli::KingdomsAction::GetTowns => println!("get towns"),
-        cli::KingdomsAction::AddTown {
+        KingdomsAction::GetTowns => println!("get towns"),
+        KingdomsAction::AddTown {
             kingdom_index,
             town_index,
         } => services::kingdom_services::add_town_to_kingdom(town_index, kingdom_index, directory)?,
-        cli::KingdomsAction::AddTowns {
+        KingdomsAction::AddTowns {
             kingdom_index,
             towns_index,
         } => {
             services::kingdom_services::add_towns_to_kingdom(towns_index, kingdom_index, directory)?
         }
-        cli::KingdomsAction::DeleteTown {
+        KingdomsAction::DeleteTown {
             kingdom_index,
             town_index,
         } => services::kingdom_services::delete_town_from_kingdom(
@@ -48,17 +51,17 @@ fn check_kingdoms_commands(action: KingdomsCli, directory: String) -> anyhow::Re
             kingdom_index,
             directory,
         )?,
-        cli::KingdomsAction::Crud(actions) => match actions {
-            CRUDActions::List => services::kingdom_services::list_kingdoms(directory)?,
-            CRUDActions::Create(CreateKingdom { name }) => services::kingdom_services::add_kingdom(
+        KingdomsAction::Crud(actions) => match actions {
+            cli::CRUDActions::List => services::kingdom_services::list_kingdoms(directory)?,
+            cli::CRUDActions::Create(CreateKingdom { name }) => services::kingdom_services::add_kingdom(
                 objects::kingdom::Kingdom::new(name),
                 directory,
             )?,
-            CRUDActions::Delete { index } => {
+            cli::CRUDActions::Delete { index } => {
                 services::kingdom_services::delete_kingdom(index, directory)?
             }
-            CRUDActions::Update { index } => println!("update kingdom {}", index),
-            CRUDActions::Get { index } => {
+            cli::CRUDActions::Update { index } => println!("update kingdom {}", index),
+            cli::CRUDActions::Get { index } => {
                 services::kingdom_services::get_kingdom(index, directory)?
             }
         },
@@ -71,16 +74,16 @@ fn check_towns_commands(action: TownsCli, directory: String) -> anyhow::Result<(
     let TownsCli { action } = action;
 
     match action {
-        cli::TownsAction::Crud(actions) => match actions {
-            CRUDActions::List => services::towns_services::list_towns(directory)?,
-            CRUDActions::Create(CreateTown { name, population }) => {
+        TownsAction::Crud(actions) => match actions {
+            cli::CRUDActions::List => services::towns_services::list_towns(directory)?,
+            cli::CRUDActions::Create(CreateTown { name, population }) => {
                 let new_town = objects::towns::Town::new(name, population);
 
                 services::towns_services::add_town(new_town, directory)?
             }
-            CRUDActions::Delete { index } => println!("delete town {}", index),
-            CRUDActions::Update { index } => println!("update town {}", index),
-            CRUDActions::Get { index } => services::towns_services::get_town(index, directory)?,
+            cli::CRUDActions::Delete { index } => println!("delete town {}", index),
+            cli::CRUDActions::Update { index } => println!("update town {}", index),
+            cli::CRUDActions::Get { index } => services::towns_services::get_town(index, directory)?,
         },
     }
 
