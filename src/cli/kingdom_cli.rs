@@ -16,14 +16,7 @@ pub enum KingdomsAction {
     /// List all towns of a kingdom
     GetTowns,
     /// Add a new town to a kingdom
-    AddTown {
-        /// Index of the Town
-        #[structopt(short, long)]
-        town_index: usize,
-        /// ID of the Kingdom
-        #[structopt(short, long)]
-        kingdom_index: usize,
-    },
+    AddTown(KingdomTownsOptions),
     /// Add multiple towns to a kingdom
     AddTowns {
         /// Index of the Kingdom
@@ -34,26 +27,36 @@ pub enum KingdomsAction {
         towns_index: Vec<usize>,
     },
     /// Delete a town from a kingdom
-    DeleteTown {
-        /// Index of the Town
-        #[structopt(short, long)]
-        town_index: usize,
-        /// ID of the Kingdom
-        #[structopt(short, long)]
-        kingdom_index: usize,
-    },
+    DeleteTown(KingdomTownsOptions),
     /// Add a leader from a kingdom
-    AddLeader {
-        /// Index of the Leader
-        #[structopt(short, long)]
-        leader_index: usize,
-        /// ID of the Kingdom
-        #[structopt(short, long)]
-        kingdom_index: usize,
-    },
+    AddLeader(KingdomLeadersOptions),
+    // RemoveLeader {
+    //     /// Index of the Leader
+    //     #[structopt(short, long)]
+    //     leader_index: usize,
+    //     /// ID of the Kingdom
+    //     #[structopt(short, long)]
+    //     kingdom_index: usize,
+    // }
 }
 
 #[derive(Debug, StructOpt)]
 pub struct CreateKingdom {
     pub name: String,
+}
+
+#[derive(Debug, StructOpt)]
+pub struct KingdomTownsOptions {
+    #[structopt(short, long, name = "Index of the kingdom")]
+    pub kingdom_index: usize,
+    #[structopt(short, long, name = "Index of the towns")]
+    pub town_index: usize,
+}
+
+#[derive(Debug, StructOpt)]
+pub struct KingdomLeadersOptions {
+    #[structopt(short, long, name = "Index of the kingdom")]
+    pub kingdom_index: usize,
+    #[structopt(short, long, name = "Index of the Leader")]
+    pub leader_index: usize,
 }

@@ -1,16 +1,16 @@
 // crate
-use crate::services::towns_services::get_town_by_id;
 use crate::services::leader_services::get_leader_by_id;
+use crate::services::towns_services::get_town_by_id;
 use crate::utils;
 
 // super
-use super::towns::Town;
 use super::leader::Leader;
+use super::towns::Town;
 
 // others
 use core::fmt;
-use std::io::Error;
 use serde::{Deserialize, Serialize};
+use std::io::Error;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Kingdom {
@@ -37,7 +37,7 @@ impl Kingdom {
     pub fn to_string(&self, directory: &String) -> String {
         let mut message = String::new();
         let mut towns = self.get_towns(directory);
-        let leader = self.get_leader(directory);
+        let leader: Result<Leader, Error> = self.get_leader(directory);
 
         towns.sort_by(|a, b| a.population.cmp(&b.population));
 
@@ -48,7 +48,10 @@ impl Kingdom {
                 "{}: (army: {}, leader: {:?}, towns total: {}, top towns: {:?})\n",
                 self.name,
                 self.army,
-                leader,
+                match leader.ok() {
+                    Some(leader) => leader.to_string(),
+                    None => "None".to_string(),
+                },
                 self.towns.len(),
                 towns
             )

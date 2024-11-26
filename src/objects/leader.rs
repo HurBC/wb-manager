@@ -1,8 +1,7 @@
 use crate::utils;
-use core::fmt;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Leader {
     pub id: String,
     pub name: String,
@@ -19,14 +18,8 @@ impl Leader {
             has_kingdom: false,
         }
     }
-}
 
-impl fmt::Debug for Leader {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "[Name: {}, Personality: {}]",
-            self.name, self.personality
-        )
+    pub fn to_string(&self) -> String {
+        format!("[name: {}, personality: {}]", self.name, self.personality)
     }
 }

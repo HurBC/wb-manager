@@ -4,5 +4,11 @@
     "name": "Luna",
     "personality": "Dictador",
     "has_kingdom": true
+  },
+  {
+    "id": "F5GWQUtx",
+    "name": "Queen",
+    "personality": "Pacifista",
+    "has_kingdom": true
   }
 ]

@@ -3,7 +3,7 @@ use crate::objects::kingdom::Kingdom;
 
 // super
 use super::collect_items;
-use super::k_l_services::add_leader_to_kingdom_i;
+use super::k_l_services::{add_leader_to_kingdom_i};
 use super::k_t_services::{
     add_town_to_kingdom_i, add_towns_to_kingdom_i, delete_town_from_kingdom_i,
 };

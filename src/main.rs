@@ -1,9 +1,12 @@
 use anyhow::{anyhow, Ok};
-use cli::kingdom_cli::{CreateKingdom, KingdomsAction, KingdomsCli};
+use cli::kingdom_cli::{
+    CreateKingdom, KingdomLeadersOptions, KingdomTownsOptions, KingdomsAction, KingdomsCli,
+};
 use cli::leader_cli::{CreateLeader, LeaderActions, LeadersCli};
 use cli::town_cli::{CreateTown, TownsAction, TownsCli};
 use cli::{Cli, SubCommand};
 use objects::leader::Leader;
+use services::leader_services::delete_leader;
 use structopt::StructOpt;
 
 mod cli;
@@ -35,28 +38,30 @@ fn check_kingdoms_commands(action: KingdomsCli, directory: String) -> anyhow::Re
 
     match action {
         KingdomsAction::GetTowns => println!("get towns"),
-        KingdomsAction::AddTown {
+        KingdomsAction::AddTown(KingdomTownsOptions {
             kingdom_index,
             town_index,
-        } => services::kingdom_services::add_town_to_kingdom(town_index, kingdom_index, directory)?,
+        }) => {
+            services::kingdom_services::add_town_to_kingdom(town_index, kingdom_index, directory)?
+        }
         KingdomsAction::AddTowns {
             kingdom_index,
             towns_index,
         } => {
             services::kingdom_services::add_towns_to_kingdom(towns_index, kingdom_index, directory)?
         }
-        KingdomsAction::DeleteTown {
+        KingdomsAction::DeleteTown(KingdomTownsOptions {
             kingdom_index,
             town_index,
-        } => services::kingdom_services::delete_town_from_kingdom(
+        }) => services::kingdom_services::delete_town_from_kingdom(
             town_index,
             kingdom_index,
             directory,
         )?,
-        KingdomsAction::AddLeader {
+        KingdomsAction::AddLeader(KingdomLeadersOptions {
             leader_index,
             kingdom_index,
-        } => services::kingdom_services::add_leader_to_kingdom(
+        }) => services::kingdom_services::add_leader_to_kingdom(
             leader_index,
             kingdom_index,
             directory,
@@ -115,9 +120,9 @@ fn check_leaders_commands(action: LeadersCli, directory: String) -> anyhow::Resu
             cli::CRUDActions::Create(CreateLeader { name, personality }) => {
                 services::leader_services::add_leader(Leader::new(name, personality), directory)?
             }
-            cli::CRUDActions::Delete { index } => println!("delete leader {}", index),
+            cli::CRUDActions::Delete { index } => delete_leader(index, directory)?,
             cli::CRUDActions::Update { index } => println!("update leader {}", index),
-            cli::CRUDActions::Get { index } => todo!("Create leader function"),
+            cli::CRUDActions::Get { index } => todo!("Create leader function {}", index),
         },
     }
 

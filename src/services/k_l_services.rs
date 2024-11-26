@@ -22,7 +22,10 @@ pub(super) fn add_leader_to_kingdom_i(
         .read(true)
         .write(true)
         .open(kingdoms_path)?;
-    let leaders_file = OpenOptions::new().read(true).write(true).open(leaders_path)?;
+    let leaders_file = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(leaders_path)?;
 
     let mut kingdoms: Vec<Kingdom> = collect_items(&kingdoms_file)?;
     let mut leaders: Vec<Leader> = collect_items(&leaders_file)?;
