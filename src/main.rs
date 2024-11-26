@@ -1,8 +1,9 @@
 use anyhow::{anyhow, Ok};
-use cli::cli::{SubCommand};
-use cli::kingdom_cli::{KingdomsAction, KingdomsCli, CreateKingdom};
-use cli::town_cli::{TownsAction, TownsCli, CreateTown};
-use cli::cli::Cli;
+use cli::kingdom_cli::{CreateKingdom, KingdomsAction, KingdomsCli};
+use cli::leader_cli::{CreateLeader, LeaderActions, LeadersCli};
+use cli::town_cli::{CreateTown, TownsAction, TownsCli};
+use cli::{Cli, SubCommand};
+use objects::leader::Leader;
 use structopt::StructOpt;
 
 mod cli;
@@ -23,6 +24,7 @@ fn main() -> anyhow::Result<()> {
     match subcommand {
         SubCommand::Kingdoms(actions) => check_kingdoms_commands(actions, game_directory),
         SubCommand::Towns(actions) => check_towns_commands(actions, game_directory),
+        SubCommand::Leaders(actions) => check_leaders_commands(actions, game_directory),
     }?;
 
     Ok(())
@@ -51,12 +53,22 @@ fn check_kingdoms_commands(action: KingdomsCli, directory: String) -> anyhow::Re
             kingdom_index,
             directory,
         )?,
+        KingdomsAction::AddLeader {
+            leader_index,
+            kingdom_index,
+        } => services::kingdom_services::add_leader_to_kingdom(
+            leader_index,
+            kingdom_index,
+            directory,
+        )?,
         KingdomsAction::Crud(actions) => match actions {
             cli::CRUDActions::List => services::kingdom_services::list_kingdoms(directory)?,
-            cli::CRUDActions::Create(CreateKingdom { name }) => services::kingdom_services::add_kingdom(
-                objects::kingdom::Kingdom::new(name),
-                directory,
-            )?,
+            cli::CRUDActions::Create(CreateKingdom { name }) => {
+                services::kingdom_services::add_kingdom(
+                    objects::kingdom::Kingdom::new(name),
+                    directory,
+                )?
+            }
             cli::CRUDActions::Delete { index } => {
                 services::kingdom_services::delete_kingdom(index, directory)?
             }
@@ -81,9 +93,31 @@ fn check_towns_commands(action: TownsCli, directory: String) -> anyhow::Result<(
 
                 services::towns_services::add_town(new_town, directory)?
             }
-            cli::CRUDActions::Delete { index } => println!("delete town {}", index),
+            cli::CRUDActions::Delete { index } => {
+                services::towns_services::delete_town(index, directory)?
+            }
             cli::CRUDActions::Update { index } => println!("update town {}", index),
-            cli::CRUDActions::Get { index } => services::towns_services::get_town(index, directory)?,
+            cli::CRUDActions::Get { index } => {
+                services::towns_services::get_town(index, directory)?
+            }
+        },
+    }
+
+    Ok(())
+}
+
+fn check_leaders_commands(action: LeadersCli, directory: String) -> anyhow::Result<()> {
+    let LeadersCli { action } = action;
+
+    match action {
+        LeaderActions::Crud(actions) => match actions {
+            cli::CRUDActions::List => services::towns_services::list_towns(directory)?,
+            cli::CRUDActions::Create(CreateLeader { name, personality }) => {
+                services::leader_services::add_leader(Leader::new(name, personality), directory)?
+            }
+            cli::CRUDActions::Delete { index } => println!("delete leader {}", index),
+            cli::CRUDActions::Update { index } => println!("update leader {}", index),
+            cli::CRUDActions::Get { index } => todo!("Create leader function"),
         },
     }
 

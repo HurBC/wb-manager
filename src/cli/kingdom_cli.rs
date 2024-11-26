@@ -1,5 +1,5 @@
-use super::StructOpt;
 use super::CRUDActions;
+use super::StructOpt;
 
 #[derive(Debug, StructOpt)]
 pub struct KingdomsCli {
@@ -38,6 +38,15 @@ pub enum KingdomsAction {
         /// Index of the Town
         #[structopt(short, long)]
         town_index: usize,
+        /// ID of the Kingdom
+        #[structopt(short, long)]
+        kingdom_index: usize,
+    },
+    /// Add a leader from a kingdom
+    AddLeader {
+        /// Index of the Leader
+        #[structopt(short, long)]
+        leader_index: usize,
         /// ID of the Kingdom
         #[structopt(short, long)]
         kingdom_index: usize,

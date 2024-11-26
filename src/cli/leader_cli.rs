@@ -2,19 +2,19 @@ use super::CRUDActions;
 use super::StructOpt;
 
 #[derive(Debug, StructOpt)]
-pub struct TownsCli {
+pub struct LeadersCli {
     #[structopt(subcommand)]
-    pub action: TownsAction,
+    pub action: LeaderActions,
 }
 
 #[derive(Debug, StructOpt)]
-pub enum TownsAction {
+pub enum LeaderActions {
     #[structopt(flatten)] // Combina variantes de CRUDActions
-    Crud(CRUDActions<CreateTown>),
+    Crud(CRUDActions<CreateLeader>),
 }
 
 #[derive(Debug, StructOpt)]
-pub struct CreateTown {
+pub struct CreateLeader {
     pub name: String,
-    pub population: u32,
+    pub personality: String,
 }

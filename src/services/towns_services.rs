@@ -2,7 +2,7 @@
 use crate::objects::towns::Town;
 
 // Super
-use super::utils::collect_items;
+use super::collect_items;
 
 // std
 use std::fs;

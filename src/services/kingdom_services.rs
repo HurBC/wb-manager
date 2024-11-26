@@ -2,10 +2,11 @@
 use crate::objects::kingdom::Kingdom;
 
 // super
+use super::collect_items;
+use super::k_l_services::add_leader_to_kingdom_i;
 use super::k_t_services::{
     add_town_to_kingdom_i, add_towns_to_kingdom_i, delete_town_from_kingdom_i,
 };
-use super::utils::collect_items;
 
 // std
 use std::fs;
@@ -126,4 +127,12 @@ pub fn delete_town_from_kingdom(
     directory: String,
 ) -> Result<()> {
     delete_town_from_kingdom_i(town_index, kingdom_index, directory)
+}
+
+pub fn add_leader_to_kingdom(
+    leader_index: usize,
+    kingdom_index: usize,
+    directory: String,
+) -> Result<()> {
+    add_leader_to_kingdom_i(kingdom_index, leader_index, directory)
 }

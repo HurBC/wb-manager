@@ -1,13 +1,15 @@
 // crate
 use crate::services::towns_services::get_town_by_id;
+use crate::services::leader_services::get_leader_by_id;
 use crate::utils;
 
 // super
-use super::leader::Leader;
 use super::towns::Town;
+use super::leader::Leader;
 
 // others
 use core::fmt;
+use std::io::Error;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -15,7 +17,7 @@ pub struct Kingdom {
     pub id: String,
     pub army: u32,
     pub name: String,
-    pub leader: Option<Leader>,
+    pub leader: Option<String>,
     pub towns: Vec<String>,
     directory: Option<String>,
 }
@@ -34,8 +36,8 @@ impl Kingdom {
 
     pub fn to_string(&self, directory: &String) -> String {
         let mut message = String::new();
-
         let mut towns = self.get_towns(directory);
+        let leader = self.get_leader(directory);
 
         towns.sort_by(|a, b| a.population.cmp(&b.population));
 
@@ -46,7 +48,7 @@ impl Kingdom {
                 "{}: (army: {}, leader: {:?}, towns total: {}, top towns: {:?})\n",
                 self.name,
                 self.army,
-                self.leader,
+                leader,
                 self.towns.len(),
                 towns
             )
@@ -66,6 +68,15 @@ impl Kingdom {
         }
 
         towns
+    }
+
+    pub(super) fn get_leader(&self, directory: &String) -> Result<Leader, Error> {
+        let leader_id = match &self.leader {
+            Some(id) => id.clone(),
+            None => "".to_string(),
+        };
+
+        get_leader_by_id(&leader_id, directory)
     }
 }
 

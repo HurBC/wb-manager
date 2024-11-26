@@ -1,5 +1,5 @@
 // super
-use super::utils::collect_items;
+use super::collect_items;
 
 // Crate
 use crate::objects::{kingdom::Kingdom, towns::Town};

@@ -3,11 +3,12 @@
     "id": "FY5IQeuB",
     "army": 0,
     "name": "Lunarium",
-    "leader": null,
+    "leader": "2lhqXHmz",
     "towns": [
       "MS937nGG",
       "lbjKdqBA"
-    ]
+    ],
+    "directory": null
   },
   {
     "id": "akI1S51j",
@@ -16,6 +17,15 @@
     "leader": null,
     "towns": [
       "KIlb0rzW"
-    ]
+    ],
+    "directory": null
+  },
+  {
+    "id": "XerkrSTA",
+    "army": 0,
+    "name": "linux_test",
+    "leader": null,
+    "towns": [],
+    "directory": null
   }
 ]
