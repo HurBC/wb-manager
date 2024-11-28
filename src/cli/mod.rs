@@ -26,7 +26,7 @@ pub enum SubCommand {
 }
 
 #[derive(Debug, StructOpt)]
-pub enum CRUDActions<TCreate: StructOpt> {
+pub enum CRUDActions<TCreate: StructOpt, TUpdate: StructOpt> {
     /// List all objects
     List,
     /// Create a new object
@@ -34,7 +34,7 @@ pub enum CRUDActions<TCreate: StructOpt> {
     /// Delete an object
     Delete { index: usize },
     /// Update an object
-    Update { index: usize },
+    Update(TUpdate),
     /// Get an object
     Get { index: usize },
 }

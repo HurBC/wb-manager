@@ -11,15 +11,15 @@ use super::towns::Town;
 use core::fmt;
 use serde::{Deserialize, Serialize};
 use std::io::Error;
+use structopt::StructOpt;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, StructOpt)]
 pub struct Kingdom {
     pub id: String,
     pub army: u32,
     pub name: String,
     pub leader: Option<String>,
     pub towns: Vec<String>,
-    directory: Option<String>,
 }
 
 impl Kingdom {
@@ -30,7 +30,6 @@ impl Kingdom {
             army: 0,
             leader: None,
             towns: Vec::new(),
-            directory: None,
         }
     }
 
@@ -65,7 +64,7 @@ impl Kingdom {
         let mut towns: Vec<Town> = Vec::new();
 
         for id in self.towns.iter() {
-            let town = get_town_by_id(id.clone(), &directory).unwrap();
+            let town = get_town_by_id(id.clone(), directory).unwrap();
 
             towns.push(town);
         }

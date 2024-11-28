@@ -12,7 +12,7 @@ pub struct KingdomsCli {
 pub enum KingdomsAction {
     // Kingdom CRUD
     #[structopt(flatten)]
-    Crud(CRUDActions<CreateKingdom>),
+    Crud(CRUDActions<CreateKingdom, UpdateKingdom>),
     /// List all towns of a kingdom
     GetTowns,
     /// Add a new town to a kingdom
@@ -43,6 +43,16 @@ pub enum KingdomsAction {
 #[derive(Debug, StructOpt)]
 pub struct CreateKingdom {
     pub name: String,
+}
+
+#[derive(Debug, StructOpt)]
+pub struct UpdateKingdom {
+    #[structopt(short, long, name = "Kingdom index")]
+    pub index: usize,
+    #[structopt(short, long, name = "New name for the kingdom")]
+    pub name: String,
+    #[structopt(short, long, name = "Update the kingdom army")]
+    pub army: usize,
 }
 
 #[derive(Debug, StructOpt)]

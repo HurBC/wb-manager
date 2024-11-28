@@ -66,7 +66,7 @@ pub(super) fn add_towns_to_kingdom_i(
     let mut kingdoms: Vec<Kingdom> = collect_items(&kingdoms_file)?;
     let mut towns: Vec<Town> = collect_items(&towns_file)?;
 
-    let unique_town_ids: Vec<usize> = HashSet::<usize>::from_iter(towns_index.into_iter())
+    let unique_town_ids: Vec<usize> = HashSet::<usize>::from_iter(towns_index)
         .into_iter()
         .collect();
 

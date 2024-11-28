@@ -7,8 +7,7 @@
     "towns": [
       "MS937nGG",
       "lbjKdqBA"
-    ],
-    "directory": null
+    ]
   },
   {
     "id": "akI1S51j",
@@ -17,15 +16,13 @@
     "leader": "F5GWQUtx",
     "towns": [
       "KIlb0rzW"
-    ],
-    "directory": null
+    ]
   },
   {
     "id": "XerkrSTA",
     "army": 0,
     "name": "linux_test",
     "leader": null,
-    "towns": [],
-    "directory": null
+    "towns": []
   }
 ]

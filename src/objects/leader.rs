@@ -1,3 +1,5 @@
+use core::fmt;
+
 use crate::utils;
 use serde::{Deserialize, Serialize};
 
@@ -7,6 +9,7 @@ pub struct Leader {
     pub name: String,
     pub personality: String,
     pub has_kingdom: bool,
+    pub is_alive: bool,
 }
 
 impl Leader {
@@ -16,10 +19,17 @@ impl Leader {
             name,
             personality,
             has_kingdom: false,
+            is_alive: true,
         }
     }
+}
 
-    pub fn to_string(&self) -> String {
-        format!("[name: {}, personality: {}]", self.name, self.personality)
+impl fmt::Display for Leader {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "[name: {}, personality: {}]",
+            self.name, self.personality
+        )
     }
 }

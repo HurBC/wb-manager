@@ -1,9 +1,10 @@
 use anyhow::{anyhow, Ok};
 use cli::kingdom_cli::{
     CreateKingdom, KingdomLeadersOptions, KingdomTownsOptions, KingdomsAction, KingdomsCli,
+    UpdateKingdom,
 };
-use cli::leader_cli::{CreateLeader, LeaderActions, LeadersCli};
-use cli::town_cli::{CreateTown, TownsAction, TownsCli};
+use cli::leader_cli::{CreateLeader, LeaderActions, LeadersCli, UpdateLeader};
+use cli::town_cli::{CreateTown, TownsAction, TownsCli, UpdateTown};
 use cli::{Cli, SubCommand};
 use objects::leader::Leader;
 use services::leader_services::delete_leader;
@@ -77,7 +78,9 @@ fn check_kingdoms_commands(action: KingdomsCli, directory: String) -> anyhow::Re
             cli::CRUDActions::Delete { index } => {
                 services::kingdom_services::delete_kingdom(index, directory)?
             }
-            cli::CRUDActions::Update { index } => println!("update kingdom {}", index),
+            cli::CRUDActions::Update(UpdateKingdom { index, army, name }) => {
+                todo!("update kingdom {} {} {}", army, name, index)
+            }
             cli::CRUDActions::Get { index } => {
                 services::kingdom_services::get_kingdom(index, directory)?
             }
@@ -101,7 +104,12 @@ fn check_towns_commands(action: TownsCli, directory: String) -> anyhow::Result<(
             cli::CRUDActions::Delete { index } => {
                 services::towns_services::delete_town(index, directory)?
             }
-            cli::CRUDActions::Update { index } => println!("update town {}", index),
+            cli::CRUDActions::Update(UpdateTown {
+                index,
+                name,
+                population,
+                loyalty,
+            }) => println!("update town {} {} {}", name, population, loyalty),
             cli::CRUDActions::Get { index } => {
                 services::towns_services::get_town(index, directory)?
             }
@@ -121,7 +129,9 @@ fn check_leaders_commands(action: LeadersCli, directory: String) -> anyhow::Resu
                 services::leader_services::add_leader(Leader::new(name, personality), directory)?
             }
             cli::CRUDActions::Delete { index } => delete_leader(index, directory)?,
-            cli::CRUDActions::Update { index } => println!("update leader {}", index),
+            cli::CRUDActions::Update(UpdateLeader { index, is_alive }) => {
+                println!("update leader {}", is_alive)
+            }
             cli::CRUDActions::Get { index } => todo!("Create leader function {}", index),
         },
     }
